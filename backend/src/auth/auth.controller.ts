@@ -1,20 +1,128 @@
-import { Body, Controller, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { registerDto } from './dto/register.dto';
-import { RefreshGuard } from './guards/jwt.guard';
+import { RegisterDto } from './dto/Register.dto';
+import { GetUser } from 'src/common/decorator/GetUser.decorator';
+import { RefreshGuard } from './guards/refresh.guard';
+import { JwtGuard } from './guards/jwt.guard';
+import { LoginDto } from './dto/Login.dto';
+import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
+  constructor(private readonly authService: AuthService) {}
 
-    constructor(private readonly authService:AuthService){}
+  @Post('register')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Register a new user',
+    description: 'Creates a new user account',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'User successfully registered',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad Request. Validation failed or user already exists',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal Server Error',
+  })
+  @ApiResponse({
+    status: 429,
+    description: 'Too Many Requests. Rate limit exceeded',
+  })
+  async register(@Body() registerData: RegisterDto) {
+    return this.authService.register(registerData);
+  }
 
+  @Post('refresh')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(RefreshGuard)
+  @ApiBearerAuth('JWT-refresh')
+  @ApiOperation({
+    summary: 'Register a new user',
+    description: 'Creates a new user account',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'User successfully registered',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad Request. Validation failed or user already exists',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal Server Error',
+  })
+  @ApiResponse({
+    status: 429,
+    description: 'Too Many Requests. Rate limit exceeded',
+  })
+  async refresh(@GetUser('id') userId: string) {
+    return this.authService.refreshToken(userId);
+  }
 
-    async register(@Body() registerDto: registerDto){
-        return this.authService.register(registerDto)
-    }
+  @Post('logout')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtGuard)
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({
+    summary: 'Register a new user',
+    description: 'Creates a new user account',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'User successfully registered',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad Request. Validation failed or user already exists',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal Server Error',
+  })
+  @ApiResponse({
+    status: 429,
+    description: 'Too Many Requests. Rate limit exceeded',
+  })
+  async logout(@GetUser('id') userId: string) {
+    return this.authService.logout(userId);
+  }
 
-    @UseGuards(RefreshGuard)
-    async refresh(userId: string){
-
-    }
+  @Post('login')
+  @HttpCode(HttpStatus.OK)
+  @ApiOperation({
+    summary: 'Register a new user',
+    description: 'Creates a new user account',
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'User successfully registered',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad Request. Validation failed or user already exists',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'Internal Server Error',
+  })
+  @ApiResponse({
+    status: 429,
+    description: 'Too Many Requests. Rate limit exceeded',
+  })
+  async login(@Body() login: LoginDto) {
+    return this.authService.login(login);
+  }
 }
