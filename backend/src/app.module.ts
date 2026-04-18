@@ -6,6 +6,10 @@ import {JwtModule} from 'passport-jwt'
 import {ConfigModule} from '@nestjs/config'
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { CategoryModule } from './category/category.module';
+import { ProductController } from './product/product.controller';
+import { ProductService } from './product/product.service';
+import { ProductModule } from './product/product.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -13,7 +17,9 @@ import { UserModule } from './user/user.module';
       envFilePath:'.env'
     }),
   AuthModule,
-  UserModule],
+  UserModule,
+  CategoryModule,
+  ProductModule],
   controllers: [AppController],
   providers: [AppService],
 })
