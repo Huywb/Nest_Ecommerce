@@ -19,7 +19,7 @@ import {
   ApiBody,
 } from '@nestjs/swagger';
 import { CartService } from './cart.service';
-import { JwtGuard } from 'src/auth/guards/jwt.guard';
+import { JwtGuard } from 'src/modules/auth/guards/jwt.guard';
 import { GetUser } from 'src/common/decorator/GetUser.decorator';
 import { AddToCartDto } from './dto/add-cart.dto';
 import { UpdateCartItemDto } from './dto/update-cart.dto';

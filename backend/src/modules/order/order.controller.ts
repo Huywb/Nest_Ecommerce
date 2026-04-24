@@ -1,8 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { JwtGuard } from 'src/auth/guards/jwt.guard';
-import { RolesGuard } from 'src/auth/guards/role.guard';
+import { JwtGuard } from 'src/modules/auth/guards/jwt.guard';
+import { RolesGuard } from 'src/modules/auth/guards/role.guard';
 import { ModerateThrottle, RelaxedThrottle } from 'src/common/decorator/Custom-throttle.decorator';
 import { GetUser } from 'src/common/decorator/GetUser.decorator';
 import { CreateOrderDto } from './dto/create-order.dto';

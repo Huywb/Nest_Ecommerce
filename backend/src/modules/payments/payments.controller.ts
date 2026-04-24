@@ -5,7 +5,7 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { JwtGuard } from 'src/auth/guards/jwt.guard';
+import { JwtGuard } from 'src/modules/auth/guards/jwt.guard';
 import { PaymentsService } from './payments.service';
 import { GetUser } from 'src/common/decorator/GetUser.decorator';
 import { CreatePaymentDto } from './dto/create-payment.dto';

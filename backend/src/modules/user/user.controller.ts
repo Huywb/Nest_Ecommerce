@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Req, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { JwtGuard } from 'src/auth/guards/jwt.guard';
-import { RolesGuard } from 'src/auth/guards/role.guard';
+import { JwtGuard } from 'src/modules/auth/guards/jwt.guard';
+import { RolesGuard } from 'src/modules/auth/guards/role.guard';
 import { UserService } from './user.service';
 import type { RequestWithUser } from 'src/common/interface/Request-interface';
 import { Roles } from 'src/common/decorator/role.decorator';

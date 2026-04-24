@@ -4,16 +4,16 @@ import { AppService } from './app.service';
 import {PassportModule} from '@nestjs/passport'
 import {JwtModule} from 'passport-jwt'
 import {ConfigModule} from '@nestjs/config'
-import { AuthModule } from './auth/auth.module';
-import { UserModule } from './user/user.module';
-import { CategoryModule } from './category/category.module';
-import { ProductController } from './product/product.controller';
-import { ProductService } from './product/product.service';
-import { ProductModule } from './product/product.module';
-import { OrderModule } from './order/order.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { UserModule } from './modules/user/user.module';
+import { CategoryModule } from './modules/category/category.module';
+import { ProductController } from './modules/product/product.controller';
+import { ProductService } from './modules/product/product.service';
+import { ProductModule } from './modules/product/product.module';
+import { OrderModule } from './modules/order/order.module';
 import { ThrottlerModule } from '@nestjs/throttler';
-import { PaymentsModule } from './payments/payments.module';
-import { CartModule } from './cart/cart.module';
+import { PaymentsModule } from './modules/payments/payments.module';
+import { CartModule } from './modules/cart/cart.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
