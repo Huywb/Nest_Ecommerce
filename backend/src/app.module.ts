@@ -13,6 +13,7 @@ import { ProductModule } from './product/product.module';
 import { OrderModule } from './order/order.module';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { PaymentsModule } from './payments/payments.module';
+import { CartModule } from './cart/cart.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -28,7 +29,8 @@ import { PaymentsModule } from './payments/payments.module';
   CategoryModule,
   ProductModule,
   OrderModule,
-  PaymentsModule],
+  PaymentsModule,
+  CartModule],
   controllers: [AppController],
   providers: [AppService],
 })
