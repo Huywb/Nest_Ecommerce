@@ -7,6 +7,7 @@ import type { RequestWithUser } from 'src/common/interface/Request-interface';
 import { Roles } from 'src/common/decorator/role.decorator';
 import { updateUserDto } from './dto/updateUser.dto';
 import { changePasswordDto } from './dto/changePassword.dto';
+import { UserResponseDto } from './dto/user-response.dto';
 
 
 @ApiTags('user')
@@ -22,7 +23,7 @@ export class UserController {
         status:200,
         description:'Get user success',
     })
-    async getProfile(@Req() req: RequestWithUser){
+    async getProfile(@Req() req: RequestWithUser): Promise<UserResponseDto>{
         return this.userService.findOne(req.user.id)
     }
 
@@ -33,7 +34,7 @@ export class UserController {
         status:200,
         description:'Get user success',
     })
-    async findAll(){
+    async findAll(): Promise<UserResponseDto[]>{
         return this.userService.getAllUser()
     }
 
@@ -44,7 +45,7 @@ export class UserController {
         status:200,
         description:'Get user success',
     })
-    async getUserById(@Param('id') userId: string){
+    async getUserById(@Param('id') userId: string) : Promise<UserResponseDto>{
         return this.userService.findOne(userId)
     }
 
@@ -55,7 +56,7 @@ export class UserController {
         status:200,
         description:'Get user success',
     })
-    async updateUser(userId: string, @Body() UpdateUser : updateUserDto){
+    async updateUser(userId: string, @Body() UpdateUser : updateUserDto): Promise<UserResponseDto>{
         return this.userService.updateUser(userId,UpdateUser)
     }
 
@@ -65,7 +66,7 @@ export class UserController {
         status:200,
         description:'Get user success',
     })
-    async updatePasswordUser(@Param('id') id : string, @Body() ChangePassword: changePasswordDto){
+    async updatePasswordUser(@Param('id') id : string, @Body() ChangePassword: changePasswordDto) : Promise<{ message: string }>{
         return this.userService.updatePasswordUser(id,ChangePassword)
     }
 
@@ -76,7 +77,7 @@ export class UserController {
         status:200,
         description:'Get user success',
     })
-    async removeUser(@Param('id') id : string){
+    async removeUser(@Param('id') id : string): Promise<{ message: string }>{
         return this.userService.removeUser(id)
     }
 

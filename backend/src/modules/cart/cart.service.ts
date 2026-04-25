@@ -3,28 +3,24 @@ import {
   NotFoundException,
   BadRequestException,
 } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
+import { CartResponseDto } from './dto/response-cart.dto';
 import { AddToCartDto } from './dto/add-cart.dto';
 import { UpdateCartItemDto } from './dto/update-cart.dto';
+import { CartItemResponseDto } from './dto/item-cart-response.dto';
 
 @Injectable()
 export class CartService {
   constructor(private prisma: PrismaService) {}
 
-  /**
-   * Get or create active cart
-   */
-  async getOrCreateCart(userId: string) {
+  async getOrCreateCart(userId: string): Promise<CartResponseDto> {
     return this.getOrCreateActiveCart(userId);
   }
 
-  /**
-   * Add item to cart
-   */
   async addToCart(
     userId: string,
     addToCartDto: AddToCartDto,
-  ) {
+  ): Promise<CartResponseDto> {
     const { productId, quantity } = addToCartDto;
 
     const product = await this.prisma.product.findUnique({
@@ -76,14 +72,11 @@ export class CartService {
     return this.getOrCreateActiveCart(userId);
   }
 
-  /**
-   * Update cart item quantity
-   */
   async updateCartItem(
     userId: string,
     cartItemId: string,
     updateCartItemDto: UpdateCartItemDto,
-  ) {
+  ): Promise<CartResponseDto> {
     const { quantity } = updateCartItemDto;
 
     const cartItem = await this.prisma.cartItem.findUnique({
@@ -111,13 +104,10 @@ export class CartService {
     return this.getOrCreateActiveCart(userId);
   }
 
-  /**
-   * Remove item
-   */
   async removeFromCart(
     userId: string,
     cartItemId: string,
-  ) {
+  ): Promise<CartResponseDto> {
     const cartItem = await this.prisma.cartItem.findUnique({
       where: { id: cartItemId },
       include: { cart: true },
@@ -136,7 +126,7 @@ export class CartService {
   /**
    * Clear cart
    */
-  async clearCart(userId: string) {
+  async clearCart(userId: string): Promise<CartResponseDto> {
     const cart = await this.prisma.cart.findFirst({
       where: { userId, checkedOut: false },
     });
@@ -150,13 +140,10 @@ export class CartService {
     return this.getOrCreateActiveCart(userId);
   }
 
-  /**
-   * Merge guest cart into active cart
-   */
   async mergeCart(
     userId: string,
     items: { productId: string; quantity: number }[],
-  ) {
+  ): Promise<CartResponseDto> {
     if (!items || items.length === 0) {
       return this.getOrCreateActiveCart(userId);
     }
@@ -167,7 +154,7 @@ export class CartService {
           productId: item.productId,
           quantity: item.quantity,
         });
-      } catch (err:any) {
+      } catch (err: any) {
         console.warn(
           `[CartService] Failed to merge item ${item.productId}:`,
           err.message,
@@ -178,11 +165,8 @@ export class CartService {
     return this.getOrCreateActiveCart(userId);
   }
 
-  /**
-   * Format cart
-   */
-  private formatCart(cart: any){
-    const cartItems = cart.cartItems.map(
+  private formatCart(cart: any): CartResponseDto {
+    const cartItems: CartItemResponseDto[] = cart.cartItems.map(
       (item: any) => ({
         id: item.id,
         cartId: item.cartId,
@@ -215,9 +199,6 @@ export class CartService {
     };
   }
 
-  /**
-   * Get or create active (non-checked-out) cart
-   */
   async getOrCreateActiveCart(userId: string) {
     let cart = await this.prisma.cart.findFirst({
       where: { userId, checkedOut: false },

@@ -6,6 +6,7 @@ import { RolesGuard } from 'src/modules/auth/guards/role.guard';
 import { Roles } from 'src/common/decorator/role.decorator';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { QueryCategoryDto } from './dto/queyCategory.dto';
+import { CategoryResponseDto } from './dto/response-category.dto';
 
 
 @ApiTags('Category')
@@ -22,8 +23,9 @@ export class CategoryController {
     @ApiResponse({
         status:200,
         description:'Get user success',
+        type: CategoryResponseDto
     })
-    async createCategory(@Body() createDataCategory : CreateCategoryDto){
+    async createCategory(@Body() createDataCategory : CreateCategoryDto): Promise<CategoryResponseDto>{
         return this.categoryService.createCategory(createDataCategory)
     }
 
@@ -32,6 +34,7 @@ export class CategoryController {
     @ApiResponse({
         status:200,
         description:'Get user success',
+        type: [CategoryResponseDto]
     })
     async getAllCategory(@Query() queryData  : QueryCategoryDto){
         return this.categoryService.getAllCategory(queryData)
@@ -43,7 +46,7 @@ export class CategoryController {
         status:200,
         description:'Get user success',
     })
-    async getCategoryById(@Param('id') id : string){
+    async getCategoryById(@Param('id') id : string): Promise<CategoryResponseDto>{
         return this.categoryService.getCategoryById(id)
     }
 
@@ -52,8 +55,9 @@ export class CategoryController {
     @ApiResponse({
         status:200,
         description:'Get user success',
+        type: CategoryResponseDto
     })
-    async getCategoryBySlug(@Param('slug') slug : string){
+    async getCategoryBySlug(@Param('slug') slug : string): Promise<CategoryResponseDto> {
         return this.categoryService.getCategoryBySlug(slug)
     }
 
@@ -65,8 +69,9 @@ export class CategoryController {
     @ApiResponse({
         status:200,
         description:'Get user success',
+        type: CategoryResponseDto
     })
-    async updateCategoryById(@Param('id') id : string,@Body() DataCategory : CreateCategoryDto){
+    async updateCategoryById(@Param('id') id : string,@Body() DataCategory : CreateCategoryDto): Promise<CategoryResponseDto>{
         return this.categoryService.updateCategoryById(id,DataCategory)
     }
 
@@ -78,7 +83,7 @@ export class CategoryController {
         status:200,
         description:'Get user success',
     })
-    async deleteCategoryById(@Param('id') id : string){
+    async deleteCategoryById(@Param('id') id : string): Promise<{ message: string }>{
         return this.categoryService.deleteCategoryById(id)
     }
 
@@ -88,7 +93,7 @@ export class CategoryController {
         status:200,
         description:'Get user success',
     })
-    async deleteAllCategory(){
+    async deleteAllCategory(): Promise<{ message: string }>{
         return this.categoryService.deleteAllCategory()
     }
 

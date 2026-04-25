@@ -42,8 +42,7 @@ export class OrderController {
         return this.orderService.getAllOrders(query)
     }
 
-    @Get('admin')
-    @Roles("ADMIN")
+    @Get('')
     @RelaxedThrottle()
     @ApiOperation({summary: "Get order by ID"})
     @ApiResponse({

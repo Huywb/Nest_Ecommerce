@@ -13,6 +13,7 @@ import { RefreshGuard } from './guards/refresh.guard';
 import { JwtGuard } from './guards/jwt.guard';
 import { LoginDto } from './dto/Login.dto';
 import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { AuthResponseDto } from './dto/Auth-response.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -40,7 +41,7 @@ export class AuthController {
     status: 429,
     description: 'Too Many Requests. Rate limit exceeded',
   })
-  async register(@Body() registerData: RegisterDto) {
+  async register(@Body() registerData: RegisterDto): Promise<AuthResponseDto> {
     return this.authService.register(registerData);
   }
 
@@ -68,7 +69,7 @@ export class AuthController {
     status: 429,
     description: 'Too Many Requests. Rate limit exceeded',
   })
-  async refresh(@GetUser('id') userId: string) {
+  async refresh(@GetUser('id') userId: string): Promise<AuthResponseDto> {
     return this.authService.refreshToken(userId);
   }
 
@@ -96,8 +97,9 @@ export class AuthController {
     status: 429,
     description: 'Too Many Requests. Rate limit exceeded',
   })
-  async logout(@GetUser('id') userId: string) {
-    return this.authService.logout(userId);
+  async logout(@GetUser('id') userId: string): Promise<{ message: string }> {
+    await this.authService.logout(userId);
+    return { message: 'Successfully logged out' };
   }
 
   @Post('login')
@@ -122,7 +124,7 @@ export class AuthController {
     status: 429,
     description: 'Too Many Requests. Rate limit exceeded',
   })
-  async login(@Body() login: LoginDto) {
+  async login(@Body() login: LoginDto): Promise<AuthResponseDto>  {
     return this.authService.login(login);
   }
 }

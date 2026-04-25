@@ -7,6 +7,7 @@ import { Roles } from 'src/common/decorator/role.decorator';
 import { QueryProductDto } from './dto/product-query.dto';
 import { ProductData } from './dto/product-data.dto';
 import type {Request} from 'express'
+import { ProductResponseDto } from './dto/product-response.dto';
 
 @ApiTags('Products')
 @Controller('product')
@@ -37,7 +38,7 @@ export class ProductController {
         status:200,
         description:'Get product by id success',
     })
-    async getProductById(@Param('id') id :string){
+    async getProductById(@Param('id') id :string): Promise<ProductResponseDto>{
         return this.productService.getProductById(id)
     }
 
@@ -52,7 +53,7 @@ export class ProductController {
         status:200,
         description:'Create product success',
     })
-    async createProduct(@Body() productData: ProductData){
+    async createProduct(@Body() productData: ProductData): Promise<ProductResponseDto>{
         return this.productService.createProduct(productData)
     }
 
@@ -68,7 +69,7 @@ export class ProductController {
         status:200,
         description:'Update product success',
     })
-    async updateProductById(@Param('id') id :string, @Body() productData : ProductData){
+    async updateProductById(@Param('id') id :string, @Body() productData : ProductData): Promise<ProductResponseDto>{
         return this.productService.updateProductById(id,productData)
     }
 
@@ -83,7 +84,7 @@ export class ProductController {
         status:200,
         description:'Update product stock success',
     })
-    async updateProductStock(@Param('id') id:string,@Body('stock')  stock: number){
+    async updateProductStock(@Param('id') id:string,@Body('stock')  stock: number): Promise<ProductResponseDto>{
         return this.productService.updateProductStock(id,stock)
     }
 
@@ -98,7 +99,7 @@ export class ProductController {
         status:200,
         description:'Delete product by id success',
     })
-    async deleteProductById(@Param('id') id: string){
+    async deleteProductById(@Param('id') id: string): Promise<{ message: string }>{
         return this.productService.deleteProductById(id)
     }
 
@@ -113,7 +114,7 @@ export class ProductController {
         status:200,
         description:'Delete all product success',
     })
-    async deleteAllProduct(){
+    async deleteAllProduct(): Promise<{ message: string }>{
         return this.productService.deleteAllProduct()
     }
 
