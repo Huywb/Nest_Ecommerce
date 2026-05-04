@@ -1,4 +1,4 @@
-export const BASE_URL_V1 = 'http://localhost:3000/api/v1'
+export const BASE_URL_V1 = 'http://localhost:3001/api/v1'
 
 
 export const API_BASE = {
