@@ -40,10 +40,41 @@ const cartSlice = createSlice({
             const totals = caculateTotals(state.items)
             state.totalItems = totals.totalItems,
             state.totalPrice = totals.totalPrice
+        },
+        decreaseQuantity:(state,action: PayloadAction<string>)=>{
+            const items = state.items.find((item)=>
+                item.id === action.payload
+            )
+            if(items && items.quantity > 1){
+                items.quantity -= 1
+            }
+            const totals = caculateTotals(state.items)
+            state.totalItems = totals.totalItems,
+            state.totalPrice = totals.totalPrice
+        },
+        increaseQuantity: (state,action:PayloadAction<string>)=>{
+            const items = state.items.find((item)=>item.id === action.payload)
+            if(items){
+                items.quantity +=1
+            }
+            const totals = caculateTotals(state.items)
+            state.totalItems = totals.totalItems,
+            state.totalPrice = totals.totalPrice
+        },
+        removeProduct: (state,action: PayloadAction<string>)=>{
+            state.items = state.items.filter(item=>item.id !== action.payload)
+            const totals = caculateTotals(state.items)
+            state.totalItems = totals.totalItems,
+            state.totalPrice = totals.totalPrice
+        },
+        clearAllProduct: (state)=>{
+            state.items = []
+            state.totalItems = 0
+            state.totalPrice = 0
         }
     }}
 )
 
 
-export const {addToCart} = cartSlice.actions
+export const {addToCart,decreaseQuantity,increaseQuantity,removeProduct,clearAllProduct} = cartSlice.actions
 export default cartSlice.reducer

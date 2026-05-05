@@ -1,5 +1,11 @@
 import { Product } from "./product.type";
 
+
+export interface CartItemType {
+    product: Product,
+    quantity: number,
+    price: number
+}
 export interface Cart {
     items: CartItem[];
     totalItems: number;
