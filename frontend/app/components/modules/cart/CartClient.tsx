@@ -18,7 +18,6 @@ const CartClient = () => {
       await clearCart();
     }
   };
-
   
   const handleCheckout = ()=>{
     if(!isAuthenticated){
