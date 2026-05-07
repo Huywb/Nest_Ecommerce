@@ -31,3 +31,8 @@ export interface ProductResponse {
     data: Product[],
     meta?: PaginationMeta
 }
+
+export interface ProductCart {
+    productId: string,
+    quantity: number
+}
